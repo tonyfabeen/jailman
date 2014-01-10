@@ -1,5 +1,4 @@
 require "jailman/version"
+require "jailman/linux"
 
-module Jailman
-  # Your code goes here...
-end
+
