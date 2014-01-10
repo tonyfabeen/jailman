@@ -8,16 +8,16 @@ Gem::Specification.new do |spec|
   spec.version       = Jailman::VERSION
   spec.authors       = ["Tony Fabeen"]
   spec.email         = ["tony.fabeen@gmail.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
+  spec.description   = "Jailman jail your app for you"
+  spec.summary       = "Jailman jail your app for you"
   spec.homepage      = ""
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
-  spec.require_paths = ["lib", "ext/linux"]
-  spec.extensions    = ["ext/linux/extconf.rb"]
+  spec.require_paths = ["lib", "ext/jailman"]
+  spec.extensions    = ["ext/jailman/extconf.rb"]
 
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
