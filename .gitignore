@@ -12,6 +12,7 @@ _yardoc
 coverage
 doc/
 lib/bundler/man
+deps/program_space/psc
 pkg
 rdoc
 spec/reports

@@ -7,7 +7,7 @@ task :build do
   Dir.chdir('deps/program_space') do
     output = `make`
     raise output unless $? == 0
-    output = `cp psc ../bin`
+    output = `cp psc ../../bin/psc`
     raise output unless $? == 0
   end
 end
