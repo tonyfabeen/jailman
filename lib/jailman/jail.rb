@@ -1,6 +1,7 @@
 #encoding: utf-8
 module Jailman
   class Jail
+
     attr_accessor :directory, :name
 
     def initialize(name=nil)
