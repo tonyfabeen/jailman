@@ -4,6 +4,8 @@ require 'spec_helper'
 require 'jailman/configuration'
 
 describe Jailman::Configuration do
+  let(:jail) {Jailman::Jail.new('my_jail')}
+
   context 'when initialized' do
     context 'and no jail passed as argument' do
 
@@ -16,7 +18,6 @@ describe Jailman::Configuration do
     context 'when a jail is filled' do
 
       it 'populates jail' do
-        jail    = Jailman::Jail.new('my_jail')
         config  = described_class.new(jail)
 
         expect(config.jail).to_not be_nil
@@ -26,4 +27,14 @@ describe Jailman::Configuration do
     end
 
   end
+
+  describe '#build_file' do
+
+    it 'constructs a yaml file' do
+      config  = described_class.new(jail)
+      expect(config.build_file).to match(jail.name)
+    end
+
+  end
+
 end
