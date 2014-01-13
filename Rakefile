@@ -9,7 +9,9 @@ task :build do
     raise output unless $? == 0
     output = `cp psc ../../bin/psc`
     raise output unless $? == 0
-  end
+    output = `cp ps_rootfs ../../bin/`
+    raise output unless $? == 0
+    end
 end
 
 task :spec => :build

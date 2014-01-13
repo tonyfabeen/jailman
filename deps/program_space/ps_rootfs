@@ -6,6 +6,7 @@
 
 init_process=$(ps -p 1 -o comm=)
 ps_name=$1
+ps_dir=$2
 
 if [ "$(id -u)" != "0" ]
 then
@@ -33,9 +34,11 @@ ps_add_directory()
     fi
 }
 
-ps_dir=/var/run/jailman/jails
-ps_data_dir=$ps_dir/$ps_name/data
-ps_rootfs_dir=$ps_dir/$ps_name/rootfs
+#ps_dir=/var/run/jailman/jails
+#ps_data_dir=$ps_dir/$ps_name/data
+#ps_rootfs_dir=$ps_dir/$ps_name/rootfs
+ps_data_dir=$ps_dir/data
+ps_rootfs_dir=$ps_dir/rootfs
 us_rootfs_dirs="bin etc lib lib64 run sbin srv usr var"
 
 # create rootfs dir and make it a mount point
