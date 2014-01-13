@@ -1,0 +1,145 @@
+#!/bin/bash
+# This script is part of the PSCS version 0.7
+# Copyright (C) 2013 Rob van der Hoeven
+# Support at http://freedomboxblog.nl
+# License: GPL version 3 or later.
+
+init_process=$(ps -p 1 -o comm=)
+ps_name=lamp_demo
+ps_dir=/programspace/$ps_name
+
+if [ "$(id -u)" != "0" ]
+then
+    echo "ERROR: this script must be run by root"
+    exit 1
+fi
+
+if [ $init_process != "init" ]
+then
+    echo "ERROR: this script must run from user space"
+    exit 1
+fi
+
+if [ ! -f /etc/debian_version ]
+then
+    echo "ERROR: this demo is for Debian Wheezy only."
+    exit 1
+else
+    version="$(head -c 1 /etc/debian_version)"
+    if [ $version != "7" ]
+    then
+        echo "ERROR: this demo is for Debian Wheezy only."
+        exit 1
+    fi
+fi
+
+psc $ps_name --create $ps_dir/psd.log
+
+if [ $? == 1 ]
+then
+    echo "failed to create program space [$ps_name]"
+    exit 1
+fi
+
+psc_run()
+{
+    psc $ps_name --run "$@"
+    status=$?
+    if [ $status != 0 ]
+    then
+        echo "failed to run: $@"
+        echo "exit status $status"
+        exit $status
+    fi
+}
+
+# create the rootfs
+
+ps_rootfs $ps_name
+
+# create the network
+
+ps_network $ps_name
+
+# install wordpress
+
+psc_run bash <<PROGRAMSPACE
+if [ ! -d /var/www/$ps_name ]
+then
+  cd /var/www
+  wget http://wordpress.org/latest.tar.gz
+  tar xfvz latest.tar.gz
+  mv wordpress $ps_name
+  rm latest.tar.gz
+fi
+exit
+PROGRAMSPACE
+
+# create a wp-config
+
+psc $ps_name --cwd /var/www/$ps_name
+psc_run cp wp-config-sample.php wp-config.php
+psc_run sed -i\
+ -e "s/put.your.unique.phrase.here/$RANDOM$RANDOM$RANDOM/"\
+ -e "s/database_name_here/$ps_name/"\
+ -e "s/username_here/admin/"\
+ -e "s/password_here/admin/" ./wp-config.php
+psc_run chown -R www-data:www-data /var/www/$ps_name
+
+# create a mysql database
+
+debian_sys_maint_password=$(awk '/password/{print $3}' /etc/mysql/debian.cnf | head -1)
+psc_run touch /etc/mysql/debian.cnf
+
+psc $ps_name --cwd /var/www
+psc_run mkdir -p mysql
+psc_run chown mysql:mysql mysql
+psc_run mysql_install_db --basedir=/usr --datadir=/var/www/mysql --user=mysql
+psc_run sed -i -e "s/\/var\/lib\/mysql/\/var\/www\/mysql/g" /etc/mysql/my.cnf
+psc_run /etc/init.d/mysql start
+psc_run mysqladmin -u root password admin
+psc_run bash -c "mysql -uroot -padmin<<SQL
+DROP DATABASE IF EXISTS $ps_name;
+CREATE DATABASE $ps_name;
+GRANT ALL PRIVILEGES ON $ps_name.* TO 'admin'@'localhost' IDENTIFIED BY 'admin';
+GRANT ALL PRIVILEGES ON *.* TO 'debian-sys-maint'@'localhost' IDENTIFIED BY '$debian_sys_maint_password';
+FLUSH PRIVILEGES;
+exit
+SQL"
+psc_run /etc/init.d/mysql stop
+
+# create apache configuration
+
+psc_run tee /etc/apache2/sites-available/$ps_name <<WEBCONFIG
+<VirtualHost *:80>
+    ServerAdmin yourname@yourdomainname.com
+    ServerName wordpress.yourdomainame.com
+    DocumentRoot /var/www/$ps_name
+
+    <Directory />
+        Options FollowSymLinks
+        AllowOverride None
+    </Directory>
+
+    <Directory /var/www/$ps_name>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride All
+        Order allow,deny
+        allow from all
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    # Possible values include: debug, info, notice, warn, error, crit,
+    # alert, emerg.
+
+    LogLevel warn
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+WEBCONFIG
+
+psc $ps_name --cwd /etc/apache2/sites-enabled
+psc_run ln -s -f ../sites-available/$ps_name $ps_name
+
+# create a backup tar with the unconfigured wordpress instance
+psc $ps_name --kill
+ps_backup $ps_name

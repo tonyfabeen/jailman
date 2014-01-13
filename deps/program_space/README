@@ -1,0 +1,20 @@
+Welcome to the PSCS version 0.7
+
+This release should contain the following files:
+
+  psc.c
+  ps_rootfs
+  ps_network
+  ps_httpd_firewall
+  ps_lamp_create
+  ps_lamp
+  ps_backup
+  gpl-3.0.txt
+  README
+
+Please read the following article on my blog
+for some background:
+
+http://freedomboxblog.nl/program_space
+
+Rob van der Hoeven.

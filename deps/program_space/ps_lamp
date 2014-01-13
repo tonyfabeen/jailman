@@ -1,0 +1,83 @@
+#!/bin/bash
+# This script is part of the PSCS version 0.7
+# Copyright (C) 2013 Rob van der Hoeven
+# Support at http://freedomboxblog.nl
+# License: GPL version 3 or later.
+
+init_process=$(ps -p 1 -o comm=)
+ps_name=lamp_demo
+
+ps_pid=$(psc $ps_name --pid)
+ps_command=$1
+
+psc_run()
+{
+    psc $ps_name --run "$@"
+    status=$?
+    if [ $status != 0 ]
+    then
+        echo "failed to run: $@"
+        echo "exit status $status"
+        exit $status
+    fi
+}
+
+ps_start()
+{
+    if [ "$ps_pid" == "0" ]
+    then
+        ps_pid=$(psc $ps_name --create)
+    fi
+
+    if [ "$ps_pid" == "0" ]
+    then
+        echo "could not start program space [$ps_name]"
+        exit 1
+    fi
+
+    ps_rootfs $ps_name
+    ps_network $ps_name
+    ps_httpd_firewall $ps_name
+
+    psc_run /etc/init.d/mysql start
+    psc_run /etc/init.d/apache2 start
+}
+
+ps_stop()
+{
+    if [ $ps_pid == 0 ]
+    then
+        echo "program space [$ps_name] is not running!"
+        exit 1
+    fi
+
+    psc_run /etc/init.d/apache2 stop
+    psc_run /etc/init.d/mysql stop
+    psc $ps_name --kill
+}
+
+if [ "$(id -u)" != "0" ]
+then
+    echo "ERROR: this script must be run by root"
+    exit 1
+fi
+
+if [ $init_process != "init" ]
+then
+    echo "ERROR: this script must run from user space"
+    exit 1
+fi
+
+if [ "$ps_command" == "start" ]
+then
+    ps_start
+    exit 0
+fi
+
+if [ "$ps_command" == "stop" ]
+then
+    ps_stop
+    exit 0
+fi
+
+echo "invallid parameter(s): valid commands are: start stop"

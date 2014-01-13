@@ -1,0 +1,62 @@
+#!/bin/bash
+# This script is part of the PSCS version 0.7
+# Copyright (C) 2013 Rob van der Hoeven
+# Support at http://freedomboxblog.nl
+# License: GPL version 3 or later.
+
+init_process=$(ps -p 1 -o comm=)
+ps_name=$1
+
+if [ "$(id -u)" != "0" ]
+then
+    echo "ERROR: this script must be run by root"
+    exit 1
+fi
+
+if [ $init_process != "init" ]
+then
+    echo "ERROR: this script must run from user space"
+    exit 1
+fi
+
+if [ -z "$ps_name" ]
+then
+    echo "ERROR: please give the name of the program space as a parameter: e.g. ps_httpd_firewall test1"
+    exit 1
+fi
+
+psc $ps_name --run bash<<PROGRAMSPACE
+#set default policies to DROP
+iptables -F
+iptables -F -t nat
+iptables -F -t mangle
+iptables -X
+iptables -P INPUT DROP
+iptables -P FORWARD DROP
+iptables -P OUTPUT DROP
+
+# no restrictions on loopback
+iptables -A INPUT -i lo -j ACCEPT
+iptables -A OUTPUT -o lo -j ACCEPT
+
+# INPUT - accept http, https icmp-echo
+iptables -A INPUT -m state --state INVALID -j DROP
+iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -A INPUT -m state --state NEW -p tcp --dport 80 --syn -j ACCEPT
+iptables -A INPUT -m state --state NEW -p tcp --dport 443 --syn -j ACCEPT
+iptables -A INPUT -p icmp --icmp-type echo-request -j ACCEPT
+#iptables -A INPUT -j LOG --log-prefix "DROP " --log-ip-options --log-tcp-options
+
+# OUTPUT - allow dns (udp 53), dhcp-client (udp,tcp 68), http, https, icmp-echo
+iptables -A OUTPUT -m state --state INVALID -j DROP
+iptables -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+#SMTP: iptables -A OUTPUT -p tcp --dport 25 --syn -m state --state NEW -j ACCEPT
+iptables -A OUTPUT -p udp --dport 53 -m state --state NEW -j ACCEPT
+iptables -A OUTPUT -p udp --dport 68 -m state --state NEW -j ACCEPT
+iptables -A OUTPUT -p tcp --dport 68 -m state --state NEW -j ACCEPT
+iptables -A OUTPUT -p tcp --dport 80 --syn -m state --state NEW -j ACCEPT
+iptables -A OUTPUT -p tcp --dport 443 --syn -m state --state NEW -j ACCEPT
+iptables -A OUTPUT -p icmp --icmp-type echo-request -j ACCEPT
+iptables -A OUTPUT -j LOG --log-prefix "DROP " --log-ip-options --log-tcp-options
+exit
+PROGRAMSPACE

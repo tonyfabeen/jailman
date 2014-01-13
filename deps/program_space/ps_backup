@@ -1,0 +1,36 @@
+#!/bin/bash
+# This script is part of the PSCS version 0.7
+# Copyright (C) 2013 Rob van der Hoeven
+# Support at http://freedomboxblog.nl
+# License: GPL version 3 or later.
+
+init_process=$(ps -p 1 -o comm=)
+ps_name=$1
+ps_pid=$(psc $ps_name --pid)
+
+if [ "$(id -u)" != "0" ]
+then
+    echo "ERROR: this script must be run by root"
+    exit 1
+fi
+
+if [ $init_process != "init" ]
+then
+    echo "ERROR: this script must run from user space"
+    exit 1
+fi
+
+if [ -z "$ps_name" ]
+then
+    echo "ERROR: please give the name of the program space as a parameter: e.g. ps_backup test1"
+    exit 1
+fi
+
+if [ "$ps_pid" != "0" ]
+then
+    echo "ERROR: the program space [$ps_name] is still running"
+    exit 1
+fi
+
+cd /programspace
+tar -cvzpf "$ps_name"_$(date +%Y%m%d_%H%M%S).psp.tar.gz $ps_name/*
