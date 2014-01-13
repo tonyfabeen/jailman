@@ -16,6 +16,7 @@ deps/program_space/psc
 pkg
 rdoc
 spec/reports
+spec/fixtures/*
 test/tmp
 test/version_tmp
 tmp

@@ -14,6 +14,11 @@ describe Jailman::Jail do
         expect(jail.directory).to match(Dir.pwd)
       end
 
+      it 'initializes configuration object' do
+        expect(jail.configuration).to_not be_nil
+        expect(jail.configuration.jail).to be(jail)
+      end
+
       it 'and populates name with the last element of directory' do
         expect(jail.name).to_not be_nil
         expect(jail.name).to match (jail.directory.split('/').last)
@@ -29,12 +34,16 @@ describe Jailman::Jail do
         expect(jail.directory).to match(Dir.pwd)
       end
 
+      it 'initializes configuration object' do
+        expect(jail.configuration).to_not be_nil
+        expect(jail.configuration.jail).to be(jail)
+      end
+
       it 'and populates name with the constructor argument' do
         expect(jail.name).to match('my_jail')
       end
 
     end
-
 
   end
 end

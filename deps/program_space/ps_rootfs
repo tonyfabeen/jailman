@@ -33,7 +33,7 @@ ps_add_directory()
     fi
 }
 
-ps_dir=/programspace
+ps_dir=/var/run/jailman/jails
 ps_data_dir=$ps_dir/$ps_name/data
 ps_rootfs_dir=$ps_dir/$ps_name/rootfs
 us_rootfs_dirs="bin etc lib lib64 run sbin srv usr var"
