@@ -1,5 +1,5 @@
 #encoding: utf-8
 module Jailman
-  class Linux
+  class Jail
   end
 end
