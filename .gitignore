@@ -11,6 +11,7 @@ InstalledFiles
 _yardoc
 coverage
 doc/
+bin/psc
 lib/bundler/man
 deps/program_space/psc
 pkg
