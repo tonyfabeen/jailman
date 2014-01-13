@@ -21,7 +21,10 @@ Or install it yourself as:
 ###Creating a new Jail :
 
 Into your application directory :
+
+```
     jail new [app-name]
+```
 
 It creates a jail.yml where you can edit your jail configuration.
 
@@ -36,7 +39,10 @@ run:
 ###Starting a jail:
 
 Into your application directory :
+
+```
     jail start
+```
 
 ###Killing a Jail
 
