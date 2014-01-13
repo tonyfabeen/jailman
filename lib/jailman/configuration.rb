@@ -1,11 +1,14 @@
 #encoding: utf-8
 require 'erb'
+require 'yaml'
 
 module Jailman
   class Configuration
 
     TEMPLATE = <<-YAML
-      application_name : <%= @jail.name %>
+      application:
+        name : <%= @jail.name %>
+        repository: # git@github.com:tonyfabeen/jailman.git
       run:
         commands:
           # Here you put your list of commands
@@ -13,21 +16,24 @@ module Jailman
           #- bundle exec rails s -p 8888
     YAML
 
-
-    attr_accessor :jail
+    attr_accessor :jail, :yaml
 
     def initialize(jail=nil)
       raise ArgumentError.new('A jail must be passed') unless jail
       @jail = jail
     end
 
-    def create_file
+    def create_yaml
+      build
 
+      File.open("#{jail.directory}/jail.yml", 'w') do |f|
+        f.puts @yaml_file
+      end
     end
 
-    def build_file
+    def build
       template = ERB.new(TEMPLATE)
-      template.result(binding)
+      @yaml_file = template.result(binding)
     end
 
   end

@@ -1,0 +1,8 @@
+      application:
+        name : 604
+        repository: # git@github.com:tonyfabeen/jailman.git
+      run:
+        commands:
+          # Here you put your list of commands
+          #- bundle install
+          #- bundle exec rails s -p 8888

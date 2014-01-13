@@ -29,11 +29,14 @@ Into your application directory :
 It creates a jail.yml where you can edit your jail configuration.
 
 ``` yaml
-application_name : [app-name]
+application:
+  name : [Application Name]
+  repository: [Git repository Url]
 run:
   commands:
-    - bundle install
-    - bundle exec rails s -p 8888
+    # Here you put your list of commands
+    #- bundle install
+    #- bundle exec rails s -p 8888
 ```
 
 ###Starting a jail:
