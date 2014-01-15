@@ -57,7 +57,7 @@ describe Jailman::Configuration do
       expect(yaml_data["application"]["name"]).to match(config.jail.name)
     end
 
-    after { FileUtils.rmdir(config.jail.directory) }
+    after { FileUtils.rm_rf(config.jail.directory) }
 
   end
 
