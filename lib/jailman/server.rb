@@ -5,8 +5,6 @@ module Jailman
 
   class Server
 
-    SOCKET_PATH = '/tmp/jailman'
-
     include Celluloid::IO
 
     finalizer :finalize
@@ -53,7 +51,7 @@ module Jailman
 
 end
 
-supervisor = Jailman::Server.supervise('./test_sock')
+supervisor = Jailman::Server.supervise('./test_sock.sock')
 trap("INT"){ supervisor.terminate; exit }
 loop {}
 
