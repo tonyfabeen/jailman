@@ -24,5 +24,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec"
   spec.add_development_dependency "rspec-expectations"
 
+  spec.add_runtime_dependency "celluloid-io"
+
   spec.version = Jailman::VERSION
 end
