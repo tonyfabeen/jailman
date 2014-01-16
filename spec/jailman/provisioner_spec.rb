@@ -3,7 +3,7 @@ require 'spec_helper'
 require 'jailman/provisioner'
 
 describe Jailman::Provisioner do
-  let(:jail) {Jailman::Jail.new('my_jail')}
+  let(:jail) { Jailman::Jail.new("Jail#{rand(1000)}") }
 
   context 'when initialized' do
     context 'and no jail passed as argument' do
@@ -27,22 +27,27 @@ describe Jailman::Provisioner do
   end
 
   describe '#create_rootfs' do
-    let(:config) do
-      jail = Jailman::Jail.new("Jail#{rand(1000)}")
-      jail.directory = Dir.pwd + "/spec/fixtures/jails/#{jail.name}"
-      provisioner = described_class.new(jail)
-      provisioner
-    end
 
     it 'creates a new rootfs' do
-      provisioner = described_class.new(jail)
-      provisioner.rootfs_script = "#{Dir.pwd}/bin/ps_rootfs"
+      jail.directory = Dir.pwd + "/spec/fixtures/jails/#{jail.name}"
 
-      pending
-      #provisioner.create_rootfs
-      #expect(File.exists?(provisioner.jail.directory + "/data"))
-      #expect(File.exists?(provisioner.jail.directory + "/rootfs"))
-    end
+      provisioner = described_class.new(jail)
+      provisioner.jail_script   = "#{Dir.pwd}/bin/psc"
+      provisioner.rootfs_script = "#{Dir.pwd}/bin/ps_rootfs"
+      provisioner.run!
+
+      puts provisioner.jail.name
+
+      script = "#{Dir.pwd}/bin/psc #{provisioner.jail.name} --run free -m"
+      output = `#{script}`
+      expect(output).to match("Mem:")
+   end
+
+   after do
+     script = "#{Dir.pwd}/bin/psc #{jail.name} --kill"
+     output = `#{script}`
+   end
+
   end
 
 end
