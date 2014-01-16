@@ -23,7 +23,7 @@ Or install it yourself as:
 Into your application directory :
 
 ```
-    jail new [app-name]
+  jail new [app-name]
 ```
 
 It creates a jail.yml where you can edit your jail configuration.
@@ -44,7 +44,7 @@ run:
 Into your application directory :
 
 ```
-    jail start
+  jail start
 ```
 
 ###Killing a Jail
@@ -59,6 +59,14 @@ It will kill your jail process.
 
 ```
   jail list
+```
+
+### Running Tests
+
+It requires sudo privileges.
+
+```
+  sudo rake spec
 ```
 
 ## Contributing
