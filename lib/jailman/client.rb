@@ -34,5 +34,5 @@ module Jailman
 end
 
 client = Jailman::Client.new('./test_sock.sock')
-client.send({:param_one => rand(1000), :param_two => rand(2000)})
+client.send({:name => rand(1000), :directory => rand(2000)})
 
