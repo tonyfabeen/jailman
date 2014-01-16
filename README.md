@@ -61,7 +61,7 @@ It will kill your jail process.
   jail list
 ```
 
-### Running Tests
+## Running Tests
 
 It requires sudo privileges.
 
