@@ -1,6 +1,11 @@
 # Jailman
 
-Jails your app for you
+It's a Linux Container Runtime, written with a bit of C and a lot of Ruby.
+
+It aims to do the same of LXC, but with less resources, to be pluggable and
+more devops friendly.
+
+Enjoy!
 
 ## Installation
 

@@ -9,12 +9,15 @@ module Jailman
     def initialize(name=nil)
       @directory = Dir.pwd
       @name      = name || @directory.split('/').last
-      @configuration = Jailman::Configuration.new(self)
     end
 
     def create
+      configuration = Jailman::Configuration.new(self)
       configuration.create_yaml
-    end
+
+      provisioner = Jailman::Provisioner.new(self)
+      provisioner.run!
+   end
 
   end
 
