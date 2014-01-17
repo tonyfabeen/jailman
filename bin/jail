@@ -2,13 +2,17 @@
 
 require 'rubygems'
 require 'thor'
+require 'jailman'
 
 class Jail < Thor
 
-  desc "new [name]", "Creates a new Jail for application [name]"
+  desc "new [name] [directory]", "Creates a new Jail for application [name] [directory]"
 
-  def new(name)
-    p "#{name}"
+  def new(name, directory)
+    p "[JAILMAN] Creating Jail #{name}"
+
+    jail = Jailman::Jail.new(name, directory)
+    jail.create
   end
 
 end

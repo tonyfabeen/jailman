@@ -25,6 +25,7 @@ module Jailman
 
     def create_yaml
       build
+
       f = File.open("#{jail.directory}/jail.yml", 'w+')
       f.puts @yaml_file
       f.close
