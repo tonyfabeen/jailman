@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'thor'
+
+class Jail < Thor
+
+  desc "new [name]", "Creates a new Jail for application [name]"
+
+  def new(name)
+    p "#{name}"
+  end
+
+end
+
+Jail.start(ARGV)
