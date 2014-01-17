@@ -40,12 +40,21 @@ describe Jailman::Jail do
   describe '#create' do
 
     let(:jail) do
+
+      Jailman::Provisioner.any_instance.stub(:rootfs_script) do
+        "#{Dir.pwd}/bin/ps_rootfs"
+      end
+
+      Jailman::Provisioner.any_instance.stub(:jail_script) do
+        "#{Dir.pwd}/bin/psc"
+      end
+
       jail = jail_factory
       jail.create
       jail
     end
 
-    xit 'runs a jail and be able to receive commands' do
+    it 'runs a jail and be able to receive commands' do
       #Command inside container
       script = "#{Dir.pwd}/bin/psc #{jail.name} --run free -m"
       output = `#{script}`

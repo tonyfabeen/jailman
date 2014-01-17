@@ -11,15 +11,20 @@ module Jailman
       raise ArgumentError.new('A jail must be passed') unless jail
       @jail = jail
       @rootfs_script = "ps_rootfs"
-      @jail_sctipt   = "psc"
+      @jail_script   = "psc"
     end
 
     def run!
+      #create_jail_dir
       create_jail
       create_rootfs
     end
 
     private
+
+    def create_jail_dir
+      FileUtils.mkdir_p(jail.directory)
+    end
 
     def create_jail
       script = "#{jail_script} #{jail.name} --create"
@@ -28,6 +33,7 @@ module Jailman
     end
 
     def create_rootfs
+      require 'pry';binding.pry
       script = "#{rootfs_script} #{jail.name} #{jail.directory}"
       output = `#{script}`
       raise output unless $? == 0

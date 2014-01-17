@@ -30,21 +30,8 @@ module Jailman
 
         #TODO: HERE will have the processing flow
         jail = JSON.parse(data)
-        puts "Jail to create #{jail}"
 
-        script = "../../bin/psc #{jail['name']} --create"
-        p script
-        output = `#{script}`
-        raise output unless $? == 0
-        script = "../../bin/ps_rootfs #{jail['name']} ../../spec/fixtures/jails/#{jail['name']}"
-        p script
-        output = `#{script}`
-        raise output unless $? == 0
-        script = "../../bin/psc #{jail['name']} --run free -m "
-        p script
-        output = `#{script}`
-        p output
-        raise output unless $? == 0
+
 
 
         #Response

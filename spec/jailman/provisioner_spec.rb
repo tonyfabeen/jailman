@@ -29,11 +29,11 @@ describe Jailman::Provisioner do
   describe '#create_rootfs' do
 
     it 'creates a new rootfs' do
-      jail.directory = Dir.pwd + "/spec/fixtures/jails/#{jail.name}"
 
       provisioner = described_class.new(jail)
       provisioner.jail_script   = "#{Dir.pwd}/bin/psc"
       provisioner.rootfs_script = "#{Dir.pwd}/bin/ps_rootfs"
+      require 'pry';binding.pry
       provisioner.run!
 
       puts provisioner.jail.name
@@ -43,7 +43,7 @@ describe Jailman::Provisioner do
       expect(output).to match("Mem:")
    end
 
-   after do
+   after(:all) do
      script = "#{Dir.pwd}/bin/psc #{jail.name} --kill"
      output = `#{script}`
    end

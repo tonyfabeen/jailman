@@ -6,14 +6,14 @@ module Jailman
     attr_accessor :directory, :name
     attr_reader   :configuration
 
-    def initialize(name=nil)
-      @directory = Dir.pwd
+    def initialize(name=nil, directory=nil)
+      @directory = directory || Dir.pwd
       @name      = name || @directory.split('/').last
     end
 
     def create
       configuration = Jailman::Configuration.new(self)
-      configuration.create_yaml
+      #configuration.create_yaml
 
       provisioner = Jailman::Provisioner.new(self)
       provisioner.run!

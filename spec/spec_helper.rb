@@ -15,3 +15,4 @@ def jail_factory
   jail.directory = Dir.pwd + "/spec/fixtures/jails/#{jail.name}"
   jail
 end
+
