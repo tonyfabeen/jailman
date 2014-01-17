@@ -39,9 +39,7 @@ describe Jailman::Configuration do
 
   describe '#create_yaml' do
     let(:config) do
-      jail = Jailman::Jail.new("Jail#{rand(1000)}")
-      jail.directory = Dir.pwd + "/spec/fixtures/jails/#{jail.name}"
-      config = described_class.new(jail)
+      config = described_class.new(jail_factory)
       config
     end
 
@@ -49,6 +47,7 @@ describe Jailman::Configuration do
 
     it 'creates a new config file into current directory' do
       config.create_yaml
+
       yaml_path    = config.jail.directory + "/jail.yml"
       yaml_data = YAML.load_file(yaml_path)
 

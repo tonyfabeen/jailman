@@ -39,16 +39,13 @@ describe Jailman::Jail do
 
   describe '#create' do
 
-    let(:jail) { Jailman::Jail.new("Jail#{rand(1000)}") }
-
-    it 'runs a jail and be able to receive commands' do
-
-      require 'pry'; binding.pry
-      p jail.name
-      jail.directory = Dir.pwd + "/spec/fixtures/jails/#{jail.name}"
-      p jail.directory
+    let(:jail) do
+      jail = jail_factory
       jail.create
+      jail
+    end
 
+    xit 'runs a jail and be able to receive commands' do
       #Command inside container
       script = "#{Dir.pwd}/bin/psc #{jail.name} --run free -m"
       output = `#{script}`

@@ -3,7 +3,7 @@ require 'spec_helper'
 require 'jailman/provisioner'
 
 describe Jailman::Provisioner do
-  let(:jail) { Jailman::Jail.new("Jail#{rand(1000)}") }
+  let(:jail) { jail_factory }
 
   context 'when initialized' do
     context 'and no jail passed as argument' do

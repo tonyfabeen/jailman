@@ -1,8 +1,6 @@
 require 'bundler'
 Bundler.setup(:default, :development)
 
-$: << File.dirname(__FILE__) + '/../ext/jailman_c'
-
 RSpec.configure do |config|
   config.order = 'random'
 
@@ -10,4 +8,10 @@ RSpec.configure do |config|
     c.syntax = [:expect]
   end
 
+end
+
+def jail_factory
+  jail = Jailman::Jail.new("Jail#{rand(1000)}")
+  jail.directory = Dir.pwd + "/spec/fixtures/jails/#{jail.name}"
+  jail
 end

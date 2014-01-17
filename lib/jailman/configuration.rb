@@ -25,10 +25,9 @@ module Jailman
 
     def create_yaml
       build
-      File.open("#{jail.directory}/jail.yml", 'w') do |f|
-        f.puts @yaml_file
-      end
-      require 'pry'; binding.pry
+      f = File.open("#{jail.directory}/jail.yml", 'w+')
+      f.puts @yaml_file
+      f.close
     end
 
     def build
