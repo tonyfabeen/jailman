@@ -33,7 +33,6 @@ module Jailman
 
 
 
-
         #Response
         socket.write(data)
       end

@@ -55,7 +55,6 @@ describe Jailman::Jail do
     end
 
     it 'runs a jail and be able to receive commands' do
-      #Command inside container
       script = "#{Dir.pwd}/bin/psc #{jail.name} --run free -m"
       output = `#{script}`
       expect(output).to match("Mem:")

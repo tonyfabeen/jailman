@@ -35,8 +35,6 @@ describe Jailman::Provisioner do
       provisioner.rootfs_script = "#{Dir.pwd}/bin/ps_rootfs"
       provisioner.run!
 
-      puts provisioner.jail.name
-
       script = "#{Dir.pwd}/bin/psc #{provisioner.jail.name} --run free -m"
       output = `#{script}`
       expect(output).to match("Mem:")
