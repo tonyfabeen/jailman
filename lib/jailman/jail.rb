@@ -12,12 +12,12 @@ module Jailman
     end
 
     def create
-      configuration = Jailman::Configuration.new(self)
-      #configuration.create_yaml
-
       provisioner = Jailman::Provisioner.new(self)
       provisioner.run!
-   end
+
+      configuration = Jailman::Configuration.new(self)
+      configuration.create_yaml
+    end
 
   end
 

@@ -33,7 +33,6 @@ describe Jailman::Provisioner do
       provisioner = described_class.new(jail)
       provisioner.jail_script   = "#{Dir.pwd}/bin/psc"
       provisioner.rootfs_script = "#{Dir.pwd}/bin/ps_rootfs"
-      require 'pry';binding.pry
       provisioner.run!
 
       puts provisioner.jail.name
@@ -43,7 +42,7 @@ describe Jailman::Provisioner do
       expect(output).to match("Mem:")
    end
 
-   after(:all) do
+   after do
      script = "#{Dir.pwd}/bin/psc #{jail.name} --kill"
      output = `#{script}`
    end
