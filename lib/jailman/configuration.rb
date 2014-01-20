@@ -5,17 +5,6 @@ require 'yaml'
 module Jailman
   class Configuration
 
-    TEMPLATE = <<-YAML
-      application:
-        name : <%= @jail.name %>
-        repository: # git@github.com:tonyfabeen/jailman.git
-      run:
-        commands:
-          # Here you put your list of commands
-          #- bundle install
-          #- bundle exec rails s -p 8888
-    YAML
-
     attr_accessor :jail, :file_path
     attr_accessor :application_name
     attr_accessor :commands
@@ -36,15 +25,31 @@ module Jailman
     end
 
     def read
-      yaml_data = YAML.load_file(file_path)
+      yaml_data         = YAML.load_file(file_path)
       @application_name = yaml_data["application"]["name"]
+      @commands         = yaml_data["run"]["commands"]
     end
 
     private
 
     def build
-      template = ERB.new(TEMPLATE)
+      template = ERB.new(config_template)
       @yaml_file = template.result(binding)
+    end
+
+    def config_template
+      template = <<-YAML
+        application:
+          name : <%= @jail.name %>
+          repository: # git@github.com:tonyfabeen/jailman.git
+        run:
+          commands:
+            # Here you put your list of commands
+            #- bundle install
+            #- bundle exec rails s -p 8888
+      YAML
+
+      template
     end
 
   end

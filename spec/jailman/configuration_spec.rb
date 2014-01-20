@@ -30,6 +30,18 @@ describe Jailman::Configuration do
 
   context 'when creating a config file' do
     let(:config) do
+      template = <<-YAML
+        application:
+          name : <%= @jail.name %>
+          repository: # git@github.com:tonyfabeen/jailman.git
+        run:
+          commands:
+            # Here you put your list of commands
+            - echo testing
+            - free -m
+      YAML
+
+      described_class.any_instance.stub(:config_template) {template}
       config = described_class.new(jail_factory)
       config
     end
@@ -54,6 +66,7 @@ describe Jailman::Configuration do
     context 'on read' do
 
       it 'reads' do
+
         config.create_yaml
 
         yaml_path    = config.jail.directory + "/jail.yml"
@@ -62,6 +75,8 @@ describe Jailman::Configuration do
         config.read
 
         expect(config.application_name).to match(yaml_data["application"]["name"])
+        expect(config.commands).to_not be_nil
+        expect(config.commands.first).to match("echo testing")
       end
 
     end
