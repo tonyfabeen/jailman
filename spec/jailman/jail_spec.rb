@@ -45,14 +45,18 @@ describe Jailman::Jail do
       jail
     end
 
+    it 'changes its status to STARTED' do
+      expect(jail.running).to be_true
+    end
+
     it 'runs a jail and be able to receive commands' do
       output = Jailman::CommandRunner.run("/usr/local/bin/psc #{jail.name} --run free -m")
       expect(output).to match("Mem:")
     end
 
-   after do
-     Jailman::CommandRunner.run("/usr/local/bin/psc #{jail.name} --kill")
-   end
+    after do
+      jail.stop
+    end
 
   end
 
@@ -71,7 +75,7 @@ describe Jailman::Jail do
     end
 
    after do
-     Jailman::CommandRunner.run("/usr/local/bin/psc #{jail.name} --kill")
+     jail.stop
    end
 
 
@@ -79,7 +83,17 @@ describe Jailman::Jail do
 
 
   describe '#stop' do
-    pending
+    let(:jail) do
+      jail = jail_factory
+      jail.create
+
+      jail.stop
+      jail
+    end
+
+    it 'changes status to STOPPED' do
+      expect(jail.running).to be_false
+    end
   end
 
 end

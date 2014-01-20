@@ -15,7 +15,7 @@ module Jailman
       create_rootfs
     end
 
-    def stop
+    def stop!
       kill_process =  "#{Jailman::Constants::JAIL_SCRIPT} #{jail.name} --kill"
       Jailman::CommandRunner.run(kill_process)
 

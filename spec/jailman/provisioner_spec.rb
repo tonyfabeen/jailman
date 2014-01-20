@@ -56,7 +56,7 @@ describe Jailman::Provisioner do
       provisioner = described_class.new(jail)
       provisioner.run!
 
-      provisioner.stop
+      provisioner.stop!
       provisioner
     end
 
