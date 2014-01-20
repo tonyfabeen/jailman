@@ -9,17 +9,9 @@ Enjoy!
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Jailman requires sudo privileges. To install type :
 
-    gem 'jailman'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install jailman
+    $ sudo gem install jailman
 
 ## Usage
 
@@ -27,7 +19,6 @@ Or install it yourself as:
 
 
 ```
-  # jail new [jail_name] [path_to_jail]
   sudo jail new beer /path/to/beer
 ```
 
