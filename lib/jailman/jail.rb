@@ -7,7 +7,7 @@ module Jailman
     attr_reader   :configuration, :provisioner
 
     def initialize(name=nil, directory=nil)
-      @directory = directory || Dir.pwd
+      @directory = directory || Jailman::Constants::ROOTFS_DIR
       @name      = name || @directory.split('/').last
       @provisioner = Jailman::Provisioner.new(self)
     end
@@ -34,9 +34,11 @@ module Jailman
       File.exists?("#{Jailman::Constants::PID_DIR}/#{name}.pid")
     end
 
-
     def stop
       @provisioner.stop!
+    end
+
+    def self.find(name)
     end
 
 

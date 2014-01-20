@@ -5,6 +5,8 @@ RSpec::Core::RakeTask.new('spec')
 
 task :build do
   Dir.chdir('deps/program_space') do
+    output = `mkdir -p /var/local/jailman/jails`
+    raise output unless $? == 0
     output = `mkdir -p /var/run/jailman/jails`
     raise output unless $? == 0
     output = `make`

@@ -1,5 +1,6 @@
 #encoding: utf-8
 require 'spec_helper'
+require 'jailman/constants'
 require 'jailman/jail'
 
 describe Jailman::Jail do
@@ -11,7 +12,7 @@ describe Jailman::Jail do
 
       it 'populates directory' do
         expect(jail.directory).to_not be_nil
-        expect(jail.directory).to match(Dir.pwd)
+        expect(jail.directory).to match(Jailman::Constants::ROOTFS_DIR)
       end
 
       it 'and populates name with the last element of directory' do
@@ -26,7 +27,7 @@ describe Jailman::Jail do
 
       it 'populates directory' do
         expect(jail.directory).to_not be_nil
-        expect(jail.directory).to match(Dir.pwd)
+        expect(jail.directory).to match(Jailman::Constants::ROOTFS_DIR)
       end
 
       it 'and populates name with the constructor argument' do
