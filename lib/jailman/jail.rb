@@ -19,6 +19,13 @@ module Jailman
       configuration.create_yaml
     end
 
+    def run(command)
+      script = "#{Jailman::Constants::JAIL_SCRIPT} #{name} --run #{command}"
+      output = `#{script}`
+      raise output unless $? == 0
+      output
+    end
+
   end
 
 end

@@ -1,6 +1,7 @@
 #encoding: utf-8
 require 'spec_helper'
 require 'jailman/provisioner'
+require 'jailman/constants'
 
 describe Jailman::Provisioner do
   let(:jail) { jail_factory }

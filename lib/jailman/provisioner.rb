@@ -3,15 +3,15 @@
 module Jailman
   class Provisioner
 
-    attr_accessor :jail
-    attr_accessor :rootfs_script
-    attr_accessor :jail_script
+    attr_reader :jail
+    attr_reader :rootfs_script
+    attr_reader :jail_script
 
     def initialize(jail=nil)
       raise ArgumentError.new('A jail must be passed') unless jail
       @jail = jail
-      @rootfs_script = "/usr/local/bin/ps_rootfs"
-      @jail_script   = "/usr/local/bin/psc"
+      @rootfs_script = Jailman::Constants::ROOTFS_SCRIPT
+      @jail_script   = Jailman::Constants::JAIL_SCRIPT
     end
 
     def run!

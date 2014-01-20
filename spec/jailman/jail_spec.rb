@@ -56,6 +56,27 @@ describe Jailman::Jail do
      output = `#{script}`
    end
 
+  end
+
+
+  describe '#run' do
+
+    let(:jail) do
+      jail = jail_factory
+      jail.create
+      jail
+    end
+
+    it 'runs a jail and be able to receive commands' do
+      output = jail.run("echo testing")
+      expect(output).to match("testing")
+    end
+
+   after do
+     script = "/usr/local/bin/psc #{jail.name} --kill"
+     output = `#{script}`
+   end
+
 
   end
 end

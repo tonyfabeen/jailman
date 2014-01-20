@@ -9,12 +9,16 @@ class Jail < Thor
   desc "new [name] [directory]", "Creates a new Jail for application [name] [directory]"
 
   def new(name, directory)
-    p "[JAILMAN] Creating Jail #{name}"
+    $stdout.puts "[JAILMAN] Creating Jail #{name}"
 
     jail = Jailman::Jail.new(name, directory)
     jail.create
   end
 
+  desc "run [name]", "Run a command inside a Jail"
+  def run(name)
+    $stdout.puts "TODO"
+  end
 end
 
 Jail.start(ARGV)
