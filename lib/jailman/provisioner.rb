@@ -22,15 +22,13 @@ module Jailman
     private
 
     def create_jail
-      script = "#{jail_script} #{jail.name} --create"
-      output = `#{script}`
-      raise output unless $? == 0
+      command = "#{jail_script} #{jail.name} --create"
+      Jailman::CommandRunner.run(command)
     end
 
     def create_rootfs
-      script = "#{rootfs_script} #{jail.name} #{jail.directory}"
-      output = `#{script}`
-      raise output unless $? == 0
+      command = "#{rootfs_script} #{jail.name} #{jail.directory}"
+      Jailman::CommandRunner.run(command)
     end
 
   end
