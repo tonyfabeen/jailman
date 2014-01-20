@@ -29,7 +29,7 @@ module Jailman
     end
 
     def status
-      #TODO: NOw
+      running ? "STARTED" : "STOPPED"
     end
 
 

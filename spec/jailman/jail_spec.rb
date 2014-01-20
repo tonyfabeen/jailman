@@ -54,9 +54,7 @@ describe Jailman::Jail do
       expect(output).to match("Mem:")
     end
 
-    after do
-      jail.stop
-    end
+    after { jail.stop }
 
   end
 
@@ -74,13 +72,9 @@ describe Jailman::Jail do
       expect(output).to match("testing")
     end
 
-   after do
-     jail.stop
-   end
-
+   after { jail.stop }
 
   end
-
 
   describe '#stop' do
     let(:jail) do
@@ -94,6 +88,28 @@ describe Jailman::Jail do
     it 'changes status to STOPPED' do
       expect(jail.running).to be_false
     end
+  end
+
+  describe '#status' do
+    let(:jail) do
+      jail = jail_factory
+      jail.create
+      jail
+    end
+
+    context 'when running' do
+      it "returns correct status" do
+        expect(jail.status).to match("STARTED")
+      end
+    end
+
+    context 'when not running' do
+      it "returns correct status" do
+        expect(jail_factory.status).to match("STOPPED")
+      end
+    end
+
+    after { jail.stop }
   end
 
 end
