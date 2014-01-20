@@ -33,13 +33,13 @@ describe Jailman::Provisioner do
       provisioner = described_class.new(jail)
       provisioner.run!
 
-      script = "psc #{provisioner.jail.name} --run free -m"
+      script = "/usr/local/bin/psc #{provisioner.jail.name} --run free -m"
       output = `#{script}`
       expect(output).to match("Mem:")
    end
 
    after do
-     script = "psc #{jail.name} --kill"
+     script = "/usr/local/bin/psc #{jail.name} --kill"
      output = `#{script}`
    end
 

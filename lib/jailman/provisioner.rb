@@ -10,8 +10,8 @@ module Jailman
     def initialize(jail=nil)
       raise ArgumentError.new('A jail must be passed') unless jail
       @jail = jail
-      @rootfs_script = "ps_rootfs"
-      @jail_script   = "psc"
+      @rootfs_script = "/usr/local/bin/ps_rootfs"
+      @jail_script   = "/usr/local/bin/psc"
     end
 
     def run!

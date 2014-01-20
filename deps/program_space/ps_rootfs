@@ -72,11 +72,11 @@ chmod 1777 $ps_rootfs_dir/tmp
 mount -t tmpfs shm $ps_rootfs_dir/dev/shm
 mount -t sysfs sysfs $ps_rootfs_dir/sys
 
-psc $ps_name --chrootfs $ps_rootfs_dir
+/usr/local/bin/psc $ps_name --chrootfs $ps_rootfs_dir
 
 # add device nodes
 
-psc $ps_name --run bash<<PROGRAMSPACE
+/usr/local/bin/psc $ps_name --run bash<<PROGRAMSPACE
 [ ! -c /dev/null ] && mknod /dev/null c 1 3
 [ ! -c /dev/zero ] && mknod /dev/zero c 1 5
 [ ! -c /dev/random ] && mknod /dev/random c 1 8
