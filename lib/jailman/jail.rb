@@ -3,13 +3,12 @@ module Jailman
 
   class Jail
 
-    attr_accessor :directory, :name, :running
+    attr_accessor :directory, :name
     attr_reader   :configuration, :provisioner
 
     def initialize(name=nil, directory=nil)
       @directory = directory || Dir.pwd
       @name      = name || @directory.split('/').last
-      @running   = false
       @provisioner = Jailman::Provisioner.new(self)
     end
 
@@ -20,7 +19,6 @@ module Jailman
       configuration = Jailman::Configuration.new(self)
       configuration.create_yaml
 
-      @running = true
     end
 
     def run(command)
@@ -29,13 +27,16 @@ module Jailman
     end
 
     def status
-      running ? "STARTED" : "STOPPED"
+     running? ? "STARTED" : "STOPPED"
+    end
+
+    def running?
+      File.exists?("#{Jailman::Constants::PID_DIR}/#{name}.pid")
     end
 
 
     def stop
       @provisioner.stop!
-      @running = false
     end
 
 

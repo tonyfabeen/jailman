@@ -46,7 +46,7 @@ describe Jailman::Jail do
     end
 
     it 'changes its status to STARTED' do
-      expect(jail.running).to be_true
+      expect(jail.running?).to be_true
     end
 
     it 'runs a jail and be able to receive commands' do
@@ -86,7 +86,7 @@ describe Jailman::Jail do
     end
 
     it 'changes status to STOPPED' do
-      expect(jail.running).to be_false
+      expect(jail.running?).to be_false
     end
   end
 
