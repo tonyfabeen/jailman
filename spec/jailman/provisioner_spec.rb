@@ -28,19 +28,25 @@ describe Jailman::Provisioner do
     end
   end
 
-  describe '#create_rootfs' do
-
-    it 'creates a new rootfs' do
-
+  describe '#run!' do
+    let(:provisioner) do
       provisioner = described_class.new(jail)
       provisioner.run!
+      provisioner
+    end
 
+    it 'creates a new rootfs' do
       output = Jailman::CommandRunner.run("/usr/local/bin/psc #{provisioner.jail.name} --run free -m")
       expect(output).to match("Mem:")
-   end
+    end
+
+    it 'creates a pid file' do
+      pid_file = Jailman::Constants::PID_DIR + "/#{provisioner.jail.name}.pid"
+      expect(File.exists?(pid_file)).to be_true
+    end
 
    after do
-     Jailman::CommandRunner.run("/usr/local/bin/psc #{jail.name} --kill")
+     Jailman::CommandRunner.run("/usr/local/bin/psc #{provisioner.jail.name} --kill")
 
    end
 

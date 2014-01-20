@@ -23,6 +23,12 @@ module Jailman
 
     def create_jail
       command = "#{Jailman::Constants::JAIL_SCRIPT} #{jail.name} --create"
+      pid = Jailman::CommandRunner.run(command)
+      create_pid_file(pid)
+    end
+
+    def create_pid_file(pid)
+      command = "echo #{pid.chomp} > #{Jailman::Constants::PID_DIR}/#{jail.name}.pid"
       Jailman::CommandRunner.run(command)
     end
 
