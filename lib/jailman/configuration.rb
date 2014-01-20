@@ -16,7 +16,9 @@ module Jailman
           #- bundle exec rails s -p 8888
     YAML
 
-    attr_accessor :jail, :yaml
+    attr_accessor :jail, :file_path
+    attr_accessor :application_name
+    attr_accessor :commands
 
     def initialize(jail=nil)
       raise ArgumentError.new('A jail must be passed') unless jail
@@ -26,10 +28,19 @@ module Jailman
     def create_yaml
       build
 
-      f = File.open("#{jail.directory}/jail.yml", 'w+')
+      @file_path = "#{jail.directory}/jail.yml"
+
+      f = File.open(@file_path, 'w+')
       f.puts @yaml_file
       f.close
     end
+
+    def read
+      yaml_data = YAML.load_file(file_path)
+      @application_name = yaml_data["application"]["name"]
+    end
+
+    private
 
     def build
       template = ERB.new(TEMPLATE)

@@ -28,16 +28,7 @@ describe Jailman::Configuration do
 
   end
 
-  describe '#build' do
-
-    it 'constructs a yaml file' do
-      config  = described_class.new(jail)
-      expect(config.build).to match(jail.name)
-    end
-
-  end
-
-  describe '#create_yaml' do
+  context 'when creating a config file' do
     let(:config) do
       config = described_class.new(jail_factory)
       config
@@ -45,19 +36,40 @@ describe Jailman::Configuration do
 
     before { FileUtils.mkdir_p(config.jail.directory) }
 
-    it 'creates a new config file into current directory' do
-      config.create_yaml
+    context 'on create' do
 
-      yaml_path    = config.jail.directory + "/jail.yml"
-      yaml_data = YAML.load_file(yaml_path)
+      it 'creates' do
+        config.create_yaml
 
-      expect(File.exists?(yaml_path)).to be_true
-      expect(yaml_data).to_not be_nil
-      expect(yaml_data["application"]["name"]).to match(config.jail.name)
+        yaml_path    = config.jail.directory + "/jail.yml"
+        yaml_data = YAML.load_file(yaml_path)
+
+        expect(File.exists?(yaml_path)).to be_true
+        expect(yaml_data).to_not be_nil
+        expect(yaml_data["application"]["name"]).to match(config.jail.name)
+      end
+
+    end
+
+    context 'on read' do
+
+      it 'reads' do
+        config.create_yaml
+
+        yaml_path    = config.jail.directory + "/jail.yml"
+        yaml_data = YAML.load_file(yaml_path)
+
+        config.read
+
+        expect(config.application_name).to match(yaml_data["application"]["name"])
+      end
+
     end
 
     after { FileUtils.rm_rf(config.jail.directory) }
 
   end
+
+
 
 end
