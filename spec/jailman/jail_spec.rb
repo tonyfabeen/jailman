@@ -40,28 +40,19 @@ describe Jailman::Jail do
   describe '#create' do
 
     let(:jail) do
-
-      Jailman::Provisioner.any_instance.stub(:rootfs_script) do
-        "#{Dir.pwd}/bin/ps_rootfs"
-      end
-
-      Jailman::Provisioner.any_instance.stub(:jail_script) do
-        "#{Dir.pwd}/bin/psc"
-      end
-
       jail = jail_factory
       jail.create
       jail
     end
 
     it 'runs a jail and be able to receive commands' do
-      script = "#{Dir.pwd}/bin/psc #{jail.name} --run free -m"
+      script = "psc #{jail.name} --run free -m"
       output = `#{script}`
       expect(output).to match("Mem:")
     end
 
    after do
-     script = "#{Dir.pwd}/bin/psc #{jail.name} --kill"
+     script = "psc #{jail.name} --kill"
      output = `#{script}`
    end
 

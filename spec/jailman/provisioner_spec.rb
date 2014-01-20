@@ -31,17 +31,15 @@ describe Jailman::Provisioner do
     it 'creates a new rootfs' do
 
       provisioner = described_class.new(jail)
-      provisioner.jail_script   = "#{Dir.pwd}/bin/psc"
-      provisioner.rootfs_script = "#{Dir.pwd}/bin/ps_rootfs"
       provisioner.run!
 
-      script = "#{Dir.pwd}/bin/psc #{provisioner.jail.name} --run free -m"
+      script = "psc #{provisioner.jail.name} --run free -m"
       output = `#{script}`
       expect(output).to match("Mem:")
    end
 
    after do
-     script = "#{Dir.pwd}/bin/psc #{jail.name} --kill"
+     script = "psc #{jail.name} --kill"
      output = `#{script}`
    end
 
