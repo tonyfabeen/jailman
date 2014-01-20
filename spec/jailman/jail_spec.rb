@@ -76,4 +76,10 @@ describe Jailman::Jail do
 
 
   end
+
+
+  describe '#stop' do
+    pending
+  end
+
 end

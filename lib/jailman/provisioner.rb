@@ -15,9 +15,14 @@ module Jailman
       create_rootfs
     end
 
-    def status
-      #TODO: NOw
+    def stop
+      kill_process =  "#{Jailman::Constants::JAIL_SCRIPT} #{jail.name} --kill"
+      Jailman::CommandRunner.run(kill_process)
+
+      remove_pid_file = "rm -f #{Jailman::Constants::PID_DIR}/#{jail.name}.pid"
+      Jailman::CommandRunner.run(remove_pid_file)
     end
+
 
     private
 

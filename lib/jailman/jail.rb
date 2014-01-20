@@ -5,6 +5,7 @@ module Jailman
 
     attr_accessor :directory, :name
     attr_reader   :configuration
+    attr_reader   :status
 
     def initialize(name=nil, directory=nil)
       @directory = directory || Dir.pwd
@@ -23,6 +24,18 @@ module Jailman
       command = "#{Jailman::Constants::JAIL_SCRIPT} #{name} --run #{command}"
       Jailman::CommandRunner.run(command)
     end
+
+    def status
+      #TODO: NOw
+    end
+
+
+    def stop
+      provisioner.stop!
+      @status = "STOPPED"
+    end
+
+
 
   end
 
