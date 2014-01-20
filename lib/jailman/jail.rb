@@ -20,10 +20,8 @@ module Jailman
     end
 
     def run(command)
-      script = "#{Jailman::Constants::JAIL_SCRIPT} #{name} --run #{command}"
-      output = `#{script}`
-      raise output unless $? == 0
-      output
+      command = "#{Jailman::Constants::JAIL_SCRIPT} #{name} --run #{command}"
+      Jailman::CommandRunner.run(command)
     end
 
   end

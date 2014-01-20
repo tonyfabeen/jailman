@@ -46,14 +46,12 @@ describe Jailman::Jail do
     end
 
     it 'runs a jail and be able to receive commands' do
-      script = "/usr/local/bin/psc #{jail.name} --run free -m"
-      output = `#{script}`
+      output = Jailman::CommandRunner.run("/usr/local/bin/psc #{jail.name} --run free -m")
       expect(output).to match("Mem:")
     end
 
    after do
-     script = "/usr/local/bin/psc #{jail.name} --kill"
-     output = `#{script}`
+     Jailman::CommandRunner.run("/usr/local/bin/psc #{jail.name} --kill")
    end
 
   end
@@ -73,8 +71,7 @@ describe Jailman::Jail do
     end
 
    after do
-     script = "/usr/local/bin/psc #{jail.name} --kill"
-     output = `#{script}`
+     Jailman::CommandRunner.run("/usr/local/bin/psc #{jail.name} --kill")
    end
 
 

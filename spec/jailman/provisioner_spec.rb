@@ -2,6 +2,7 @@
 require 'spec_helper'
 require 'jailman/provisioner'
 require 'jailman/constants'
+require 'jailman/command_runner'
 
 describe Jailman::Provisioner do
   let(:jail) { jail_factory }
@@ -34,14 +35,13 @@ describe Jailman::Provisioner do
       provisioner = described_class.new(jail)
       provisioner.run!
 
-      script = "/usr/local/bin/psc #{provisioner.jail.name} --run free -m"
-      output = `#{script}`
+      output = Jailman::CommandRunner.run("/usr/local/bin/psc #{provisioner.jail.name} --run free -m")
       expect(output).to match("Mem:")
    end
 
    after do
-     script = "/usr/local/bin/psc #{jail.name} --kill"
-     output = `#{script}`
+     Jailman::CommandRunner.run("/usr/local/bin/psc #{jail.name} --kill")
+
    end
 
   end
