@@ -19,7 +19,7 @@ Jailman requires sudo privileges. To install type :
 
 
 ```
-  sudo jail new beer /path/to/beer
+$ sudo jail new beer /path/to/beer
 ```
 
 * It creates a new Jail called 'beer'.
@@ -37,18 +37,30 @@ run:
     #- bundle exec rails s -p 8888
 ```
 
+### Running a command inside a Jail
+
+```
+$ sudo jail runner beer 'free -m'
+
+total       used       free     shared    buffers     cached
+Mem:      16319304    4571076   11748228          0     293064    1617360
+-/+ buffers/cache:    2660652   13658652
+Swap:     33318908          0   33318908
+
+```
+
 ###Starting a jail:
 
 Into your application directory :
 
 ```
-  jail start [jail_name]
+$ jail start [jail_name]
 ```
 
 ###Killing a Jail
 
 ```
-  jail kill [app-name]
+$ jail kill [app-name]
 ```
 
 It will kill your jail process.
@@ -56,7 +68,7 @@ It will kill your jail process.
 ###List existing Jails
 
 ```
-  jail list
+$ jail list
 ```
 
 ## Running Tests
@@ -64,7 +76,7 @@ It will kill your jail process.
 It requires sudo privileges.
 
 ```
-  sudo rake spec
+$ sudo rake spec
 ```
 
 ## Contributing
