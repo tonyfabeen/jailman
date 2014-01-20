@@ -10,15 +10,17 @@ class Jail < Thor
 
   def new(name, directory)
     $stdout.puts "[JAILMAN] Creating Jail #{name}"
-
     jail = Jailman::Jail.new(name, directory)
     jail.create
   end
 
-  desc "run [name]", "Run a command inside a Jail"
-  def run(name)
-    $stdout.puts "TODO"
+  desc "runner [name] [command]", "Run a [command] inside a Jail [name]"
+  def runner(name, command)
+    $stdout.puts "[JAILMAN] Running : #{command}"
+    jail = Jailman::Jail.new(name)
+    $stdout.puts jail.run(command)
   end
+
 end
 
 Jail.start(ARGV)
