@@ -25,13 +25,15 @@ Or install it yourself as:
 
 ###Creating a new Jail :
 
-Into your application directory :
 
 ```
-  jail new [app-name]
+  # jail new [jail_name] [path_to_jail]
+  sudo jail new beer /path/to/beer
 ```
 
-It creates a jail.yml where you can edit your jail configuration.
+* It creates a new Jail called 'beer'.
+* It creates a new Root Filesystem at '/path/to/beer'.
+* It generates a Config File at '/path/to/beer'
 
 ``` yaml
 application:
@@ -49,7 +51,7 @@ run:
 Into your application directory :
 
 ```
-  jail start
+  jail start [jail_name]
 ```
 
 ###Killing a Jail
