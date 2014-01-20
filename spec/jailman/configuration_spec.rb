@@ -33,7 +33,7 @@ describe Jailman::Configuration do
       template = <<-YAML
         application:
           name : <%= @jail.name %>
-          repository: # git@github.com:tonyfabeen/jailman.git
+          repository: git@github.com:tonyfabeen/jailman.git
         run:
           commands:
             # Here you put your list of commands
@@ -75,6 +75,7 @@ describe Jailman::Configuration do
         config.read
 
         expect(config.application_name).to match(yaml_data["application"]["name"])
+        expect(config.application_repo).to match(yaml_data["application"]["repository"])
         expect(config.commands).to_not be_nil
         expect(config.commands.first).to match("echo testing")
       end

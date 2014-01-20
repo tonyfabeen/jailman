@@ -6,8 +6,9 @@ module Jailman
   class Configuration
 
     attr_accessor :jail, :file_path
-    attr_accessor :application_name
-    attr_accessor :commands
+    attr_reader :application_name
+    attr_reader :application_repo
+    attr_reader :commands
 
     def initialize(jail=nil)
       raise ArgumentError.new('A jail must be passed') unless jail
@@ -27,6 +28,7 @@ module Jailman
     def read
       yaml_data         = YAML.load_file(file_path)
       @application_name = yaml_data["application"]["name"]
+      @application_repo = yaml_data["application"]["repository"]
       @commands         = yaml_data["run"]["commands"]
     end
 
