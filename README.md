@@ -15,18 +15,22 @@ Jailman requires sudo privileges. To install type :
 
 ## Usage
 
-###Creating a new Jail :
-
+###Starting a new Jail :
 
 ```
-$ sudo jail new beer /path/to/beer
+$ sudo jail new first ~/.jails/first
+
+[JAILMAN] Creating Jail first
+[JAILMAN] first created
+
 ```
 
-* It creates a new Jail called 'beer'.
-* It creates a new Root Filesystem at '/path/to/beer'.
-* It generates a Config File at '/path/to/beer'
+* It creates a new Jail called 'first'.
+* It creates a new Root Filesystem at '~/.jails/first'.
+* It generates a Config File at '~/.jails/first'
 
 ``` yaml
+
 application:
   name : [Application Name]
   repository: [Git repository Url]
@@ -35,12 +39,13 @@ run:
     # Here you put your list of commands
     #- bundle install
     #- bundle exec rails s -p 8888
+
 ```
 
 ### Running a command inside a Jail
 
 ```
-$ sudo jail runner beer 'free -m'
+$ sudo jail runner first 'free -m'
 
 total       used       free     shared    buffers     cached
 Mem:      16319304    4571076   11748228          0     293064    1617360
@@ -49,26 +54,14 @@ Swap:     33318908          0   33318908
 
 ```
 
-###Starting a jail:
-
-Into your application directory :
+###Destroy a Jail
 
 ```
-$ jail start [jail_name]
-```
+$ sudo jail destroy first
 
-###Killing a Jail
+[JAILMAN] Destroy Container : first
+[JAILMAN] first destroyed
 
-```
-$ jail kill [app-name]
-```
-
-It will kill your jail process.
-
-###List existing Jails
-
-```
-$ jail list
 ```
 
 ## Running Tests

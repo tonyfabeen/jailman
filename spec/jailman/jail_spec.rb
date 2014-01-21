@@ -55,7 +55,7 @@ describe Jailman::Jail do
       expect(output).to match("Mem:")
     end
 
-    after { jail.stop }
+    after { jail.destroy }
 
   end
 
@@ -73,20 +73,20 @@ describe Jailman::Jail do
       expect(output).to match("testing")
     end
 
-   after { jail.stop }
+   after { jail.destroy }
 
   end
 
-  describe '#stop' do
+  describe '#destroy' do
     let(:jail) do
       jail = jail_factory
       jail.create
 
-      jail.stop
+      jail.destroy
       jail
     end
 
-    it 'changes status to STOPPED' do
+    it 'changes status to DESTROYED' do
       expect(jail.running?).to be_false
     end
   end
@@ -106,11 +106,11 @@ describe Jailman::Jail do
 
     context 'when not running' do
       it "returns correct status" do
-        expect(jail_factory.status).to match("STOPPED")
+        expect(jail_factory.status).to match("DESTROYED")
       end
     end
 
-    after { jail.stop }
+    after { jail.destroy }
   end
 
   describe '.find' do
@@ -129,7 +129,7 @@ describe Jailman::Jail do
         expect(described_class.find(jail.name).directory).to match(jail.directory)
       end
 
-      after { jail.stop }
+      after { jail.destroy }
 
     end
 

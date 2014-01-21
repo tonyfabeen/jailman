@@ -23,6 +23,8 @@ module Jailman
 
       json = JSON.parse(File.read(file_path))
       jail = Jailman::Jail.new(json["name"], json["directory"])
+      jail.pid = json["pid"]
+      jail
     end
 
     def clear

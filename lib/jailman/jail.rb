@@ -26,15 +26,15 @@ module Jailman
     end
 
     def status
-     running? ? "STARTED" : "STOPPED"
+     running? ? "STARTED" : "DESTROYED"
     end
 
     def running?
       File.exists?("#{Jailman::Constants::PID_DIR}/#{name}.pid")
     end
 
-    def stop
-      @provisioner.stop!
+    def destroy
+      @provisioner.destroy!
     end
 
     def self.find(name)

@@ -16,7 +16,7 @@ module Jailman
       save_state
     end
 
-    def stop!
+    def destroy!
       kill_process =  "#{Jailman::Constants::JAIL_SCRIPT} #{jail.name} --kill"
       Jailman::CommandRunner.run(kill_process)
 
@@ -25,7 +25,6 @@ module Jailman
 
       clear_state
     end
-
 
     private
 

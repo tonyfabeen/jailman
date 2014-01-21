@@ -51,17 +51,17 @@ describe Jailman::Provisioner do
     end
 
    after do
-    provisioner.stop!
+    provisioner.destroy!
    end
 
   end
 
-  describe '#stop' do
+  describe '#destroy!' do
     let(:provisioner) do
       provisioner = described_class.new(jail)
       provisioner.run!
 
-      provisioner.stop!
+      provisioner.destroy!
       provisioner
     end
 
