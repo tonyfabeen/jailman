@@ -45,6 +45,11 @@ describe Jailman::Provisioner do
       expect(File.exists?(pid_file)).to be_true
     end
 
+    it 'set a jail pid file' do
+      pid_file = File.read Jailman::Constants::PID_DIR + "/#{provisioner.jail.name}.pid"
+      expect(jail.pid).to match(pid_file)
+    end
+
    after do
      Jailman::CommandRunner.run("/usr/local/bin/psc #{provisioner.jail.name} --kill")
    end

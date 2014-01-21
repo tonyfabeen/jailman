@@ -38,6 +38,8 @@ module Jailman
     def create_pid_file(pid)
       command = "echo #{pid.chomp} > #{Jailman::Constants::PID_DIR}/#{jail.name}.pid"
       Jailman::CommandRunner.run(command)
+
+      @jail.pid = pid
     end
 
     def create_rootfs
@@ -46,13 +48,13 @@ module Jailman
     end
 
     def save_state
-      state = Jailman::State.new(jail)
+      state = Jailman::State.new(@jail)
       state.save
     end
 
     def clear_state
       state = Jailman::State.new(jail)
-      state.save
+      state.clear
     end
 
   end

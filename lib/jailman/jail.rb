@@ -3,7 +3,7 @@ module Jailman
 
   class Jail
 
-    attr_accessor :directory, :name
+    attr_accessor :directory, :name, :pid
     attr_reader   :configuration, :provisioner
 
     def initialize(name=nil, directory=nil)

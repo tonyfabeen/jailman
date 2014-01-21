@@ -34,6 +34,7 @@ module Jailman
 
     def create_file
       json = JSON.generate({
+        :pid       => jail.pid,
         :name      => jail.name,
         :directory => jail.directory
       })

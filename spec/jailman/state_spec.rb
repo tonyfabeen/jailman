@@ -38,6 +38,8 @@ describe Jailman::State do
 
     context 'when a jail present' do
       let(:state) do
+        jail.pid = rand(1000).to_s
+
         state = described_class.new(jail)
         state.save
         state
@@ -50,6 +52,7 @@ describe Jailman::State do
       it 'json contains jail data' do
         json = JSON.parse(File.read(state.file_path))
 
+        expect(json["pid"]).to match(jail.pid)
         expect(json["name"]).to match(jail.name)
         expect(json["directory"]).to match(jail.directory)
       end
