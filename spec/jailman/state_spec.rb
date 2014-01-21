@@ -3,6 +3,7 @@ require 'spec_helper'
 require 'jailman/state'
 
 describe Jailman::State do
+  let(:jail) {jail_factory}
 
   context 'when initialized' do
 
@@ -17,7 +18,7 @@ describe Jailman::State do
     context 'with a jail' do
 
       it 'initializes correctly' do
-        state = described_class.new(jail_factory)
+        state = described_class.new(jail)
         expect(state.jail).to_not be_nil
       end
 
@@ -26,7 +27,35 @@ describe Jailman::State do
   end
 
   context '#save' do
-    pending
+
+    context 'when a jail not present' do
+      it 'raises an exception' do
+        expect { described_class.new.save }.to raise_error("jail must be present")
+      end
+    end
+
+    context 'when a jail present' do
+      let(:state) do
+        state = described_class.new(jail)
+        state.save
+        state
+      end
+
+      it 'creates a json representing state' do
+        expect(File.exists?(state.file_path)).to be_true
+      end
+
+      it 'json contains jail data' do
+        json = JSON.parse(File.read(state.file_path))
+
+        expect(json["name"]).to match(jail.name)
+        expect(json["rootfs"]).to match(jail.directory)
+      end
+
+      after { FileUtils.rm_rf(state.file_path) }
+
+    end
+
   end
 
 end
