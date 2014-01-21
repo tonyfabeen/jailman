@@ -59,6 +59,7 @@ describe Jailman::State do
   end
 
   describe '#load' do
+
     context 'when a jail not present' do
       it 'raises an exception' do
         expect { described_class.new.load }.to raise_error("jail must be present")
@@ -78,6 +79,7 @@ describe Jailman::State do
       end
 
       context 'and a file is saved' do
+
         it 'returns a jail instance' do
           state.save
           loaded_jail = state.load
@@ -85,6 +87,8 @@ describe Jailman::State do
           expect(loaded_jail.name).to match(jail.name)
           expect(loaded_jail.directory).to match(jail.directory)
         end
+
+        after { FileUtils.rm_rf(state.file_path) }
       end
 
     end

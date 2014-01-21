@@ -38,9 +38,9 @@ module Jailman
     end
 
     def self.find(name)
+      state = Jailman::State.new(self.new(name))
+      state.load
     end
-
-
 
   end
 

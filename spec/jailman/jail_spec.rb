@@ -113,4 +113,24 @@ describe Jailman::Jail do
     after { jail.stop }
   end
 
+  describe '.find' do
+
+    context 'when found a jail' do
+
+      let(:jail) do
+        jail = jail_factory
+        jail.create
+        jail
+      end
+
+      it 'returns a jail instance' do
+        found_jail = described_class.find(jail.name)
+        expect(described_class.find(jail.name).name).to match(jail.name)
+        expect(described_class.find(jail.name).directory).to match(jail.directory)
+      end
+
+    end
+
+  end
+
 end

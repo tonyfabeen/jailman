@@ -25,7 +25,6 @@ module Jailman
       jail = Jailman::Jail.new(json["name"], json["directory"])
     end
 
-
     private
 
     def create_file
