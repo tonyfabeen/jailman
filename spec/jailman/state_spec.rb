@@ -49,7 +49,7 @@ describe Jailman::State do
         json = JSON.parse(File.read(state.file_path))
 
         expect(json["name"]).to match(jail.name)
-        expect(json["rootfs"]).to match(jail.directory)
+        expect(json["directory"]).to match(jail.directory)
       end
 
       after { FileUtils.rm_rf(state.file_path) }
@@ -57,5 +57,40 @@ describe Jailman::State do
     end
 
   end
+
+  describe '#load' do
+    context 'when a jail not present' do
+      it 'raises an exception' do
+        expect { described_class.new.load }.to raise_error("jail must be present")
+      end
+    end
+
+    context 'when a jail is present' do
+
+      let(:state) { described_class.new(jail) }
+
+      context 'and file not saved' do
+
+        it 'returns nil' do
+          expect(state.load).to be_nil
+        end
+
+      end
+
+      context 'and a file is saved' do
+        it 'returns a jail instance' do
+          state.save
+          loaded_jail = state.load
+
+          expect(loaded_jail.name).to match(jail.name)
+          expect(loaded_jail.directory).to match(jail.directory)
+        end
+      end
+
+    end
+
+  end
+
+
 
 end

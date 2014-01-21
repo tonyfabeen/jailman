@@ -18,7 +18,6 @@ module Jailman
 
       configuration = Jailman::Configuration.new(self)
       configuration.create_yaml
-
     end
 
     def run(command)

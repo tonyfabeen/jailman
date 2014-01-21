@@ -13,6 +13,7 @@ module Jailman
     def run!
       create_jail
       create_rootfs
+      save_state
     end
 
     def stop!
@@ -40,6 +41,11 @@ module Jailman
     def create_rootfs
       command = "#{Jailman::Constants::ROOTFS_SCRIPT} #{jail.name} #{jail.directory}"
       Jailman::CommandRunner.run(command)
+    end
+
+    def save_state
+      state = Jailman::State.new(jail)
+      state.save
     end
 
   end

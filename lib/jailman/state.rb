@@ -17,13 +17,21 @@ module Jailman
       create_file
     end
 
+    def load
+      raise "jail must be present" unless jail
+      return nil unless File.exists?(file_path)
+
+      json = JSON.parse(File.read(file_path))
+      jail = Jailman::Jail.new(json["name"], json["directory"])
+    end
+
 
     private
 
     def create_file
       json = JSON.generate({
-        :name   => jail.name,
-        :rootfs => jail.directory
+        :name      => jail.name,
+        :directory => jail.directory
       })
 
       f = File.open(file_path, "w+")
