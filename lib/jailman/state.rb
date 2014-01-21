@@ -28,7 +28,6 @@ module Jailman
     def clear
       return unless File.exists?(file_path)
       FileUtils.rm_rf(file_path)
-      true
     end
 
     private

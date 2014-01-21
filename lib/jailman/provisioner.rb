@@ -22,6 +22,8 @@ module Jailman
 
       remove_pid_file = "rm -f #{Jailman::Constants::PID_DIR}/#{jail.name}.pid"
       Jailman::CommandRunner.run(remove_pid_file)
+
+      clear_state
     end
 
 
@@ -44,6 +46,11 @@ module Jailman
     end
 
     def save_state
+      state = Jailman::State.new(jail)
+      state.save
+    end
+
+    def clear_state
       state = Jailman::State.new(jail)
       state.save
     end
