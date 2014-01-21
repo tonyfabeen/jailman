@@ -51,7 +51,7 @@ describe Jailman::Provisioner do
     end
 
    after do
-     Jailman::CommandRunner.run("/usr/local/bin/psc #{provisioner.jail.name} --kill")
+    provisioner.stop!
    end
 
   end
