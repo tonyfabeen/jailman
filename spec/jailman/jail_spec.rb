@@ -129,6 +129,8 @@ describe Jailman::Jail do
         expect(described_class.find(jail.name).directory).to match(jail.directory)
       end
 
+      after { jail.stop }
+
     end
 
   end

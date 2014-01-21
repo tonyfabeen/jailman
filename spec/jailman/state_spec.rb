@@ -29,9 +29,11 @@ describe Jailman::State do
   context '#save' do
 
     context 'when a jail not present' do
+
       it 'raises an exception' do
         expect { described_class.new.save }.to raise_error("jail must be present")
       end
+
     end
 
     context 'when a jail present' do
@@ -92,6 +94,23 @@ describe Jailman::State do
       end
 
     end
+
+  end
+
+  describe '#remove' do
+
+    let(:state) do
+      state = described_class.new(jail)
+      state.save
+      state
+    end
+
+    it 'removes state file' do
+      state.clear
+      expect(File.exists?(state.file_path)).to be_false
+    end
+
+    after { FileUtils.rm_rf(state.file_path) }
 
   end
 

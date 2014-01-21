@@ -25,6 +25,12 @@ module Jailman
       jail = Jailman::Jail.new(json["name"], json["directory"])
     end
 
+    def clear
+      return unless File.exists?(file_path)
+      FileUtils.rm_rf(file_path)
+      true
+    end
+
     private
 
     def create_file
