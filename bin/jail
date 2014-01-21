@@ -3,6 +3,7 @@
 require 'rubygems'
 require 'thor'
 require 'jailman'
+require 'terminal-table'
 
 class Jail < Thor
 
@@ -27,7 +28,12 @@ class Jail < Thor
     $stdout.puts "[JAILMAN] Status for Container : #{name}"
     jail = Jailman::Jail.find(name)
     $stdout.puts "[JAILMAN] Container [#{name}] not Found" unless jail
-    $stdout.puts "#{jail.pid}\t #{jail.name}\t #{jail.directory}\t #{jail.status}"
+
+    rows = []
+    rows << ["PID", "NAME", "DIRECTORY", "STATUS"]
+    rows << [jail.pid, jail.name, jail.directory, jail.status]
+    table = Terminal::Table.new :rows => rows
+    $stdout.puts table
   end
 
   desc "destroy [name]", "Destroy a container"

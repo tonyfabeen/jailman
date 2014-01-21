@@ -26,6 +26,7 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency "celluloid-io"
   spec.add_runtime_dependency "thor"
+  spec.add_runtime_dependency "terminal-table"
 
   spec.version = Jailman::VERSION
 end
