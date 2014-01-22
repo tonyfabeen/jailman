@@ -25,6 +25,7 @@ class Jail < Thor
 
   desc "status [name] ", "Retrieve a Jail Status"
   def status(name)
+
     $stdout.puts "[JAILMAN] Status for Container : #{name}"
     jail = Jailman::Jail.find(name)
     $stdout.puts "[JAILMAN] Container [#{name}] not Found" unless jail
@@ -45,9 +46,10 @@ class Jail < Thor
     $stdout.puts "[JAILMAN] #{name} destroyed"
   end
 
-
-
-
+  desc "list", "List Active Containers"
+  def list
+    $stdout.puts Jailman::Jail.list
+  end
 
 end
 

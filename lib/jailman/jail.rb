@@ -42,6 +42,22 @@ module Jailman
       state.load
     end
 
+    def self.list
+      jails = Dir.entries(Jailman::Constants::STATE_DIR).map do |item|
+        Jailman::Jail.find(item) unless item.include?(".")
+      end
+
+      rows = []
+      rows << ["PID", "NAME", "DIRECTORY", "STATUS"]
+
+      jails.each do |jail|
+        rows << [jail.pid, jail.name, jail.directory, jail.status] if jail
+      end
+
+      table = Terminal::Table.new :rows => rows
+      table
+    end
+
   end
 
 end

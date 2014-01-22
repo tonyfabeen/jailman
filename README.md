@@ -54,6 +54,18 @@ Swap:     33318908          0   33318908
 
 ```
 
+###List Jails
+
+```
+$ sudo jail list
+
++-------+-------+-------------------------------+---------+
+| PID   | NAME  | DIRECTORY                     | STATUS  |
+| 18600 | first | /home/user/.jails/first       | STARTED |
++-------+-------+-------------------------------+---------+
+
+```
+
 ###Destroy a Jail
 
 ```
@@ -63,6 +75,8 @@ $ sudo jail destroy first
 [JAILMAN] first destroyed
 
 ```
+
+
 
 ## Running Tests
 
