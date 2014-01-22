@@ -23,6 +23,11 @@ module Jailman
       remove_pid_file = "rm -f #{Jailman::Constants::PID_DIR}/#{jail.name}.pid"
       Jailman::CommandRunner.run(remove_pid_file)
 
+      sleep 1
+
+      remove_rootfs   = "rm -rf #{jail.directory}"
+      Jailman::CommandRunner.run(remove_rootfs)
+
       clear_state
     end
 

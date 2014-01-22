@@ -19,7 +19,9 @@ class Jail < Thor
   desc "runner [name] [command]", "Run a [command] inside a Jail [name]"
   def runner(name, command)
     $stdout.puts "[JAILMAN] Running : #{command}"
-    jail = Jailman::Jail.new(name)
+    jail = Jailman::Jail.find(name)
+
+    $stdout.puts "[JAILMAN] Container [#{name}] not Found" unless jail
     $stdout.puts jail.run(command)
   end
 
@@ -42,6 +44,7 @@ class Jail < Thor
     $stdout.puts "[JAILMAN] Destroy Container : #{name}"
     jail = Jailman::Jail.find(name)
     $stdout.puts "[JAILMAN] Container [#{name}] not Found" unless jail
+
     jail.destroy
     $stdout.puts "[JAILMAN] #{name} destroyed"
   end
