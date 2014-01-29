@@ -5,9 +5,42 @@ It's a Linux Container Runtime, written with a bit of C and a lot of Ruby.
 It aims to do the same of LXC, but with less resources, to be pluggable and
 more devops friendly.
 
+Notes : It's currently in alpha version not yet read for production.
+        All tests are running on Ubuntu > 12.04 versions.
+
 Enjoy!
 
+## Pre-Requisites
+
+On Ubuntu you must first prepare your network to support bridges:
+
+First install the `brigde-utils` package:
+
+```
+  $ sudo apt-get install -y bridge-utils
+```
+
+Then edit the file `/etc/network/interfaces`:
+
+```
+#auto lo
+#iface lo inet loopback
+
+auto br0
+iface br0 inet dhcp
+    bridge_ports eth0
+    bridge_fd 0
+    bridge_maxwait 0
+```
+
+And finally restart the network:
+
+```
+$ sudo /etc/init.d/networking restart
+```
+
 ## Installation
+
 
 Jailman requires sudo privileges. To install type :
 
