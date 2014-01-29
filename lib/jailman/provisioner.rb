@@ -13,6 +13,7 @@ module Jailman
     def run!
       jail.pid = Jailman::CommandRunner.create_jail(jail)
       Jailman::CommandRunner.create_rootfs(jail)
+      Jailman::CommandRunner.setup_network(jail)
       save_state
     end
 
@@ -21,7 +22,6 @@ module Jailman
       Jailman::CommandRunner.remove_pid_file(jail)
       sleep 1
       Jailman::CommandRunner.remove_rootfs(jail)
-
       clear_state
     end
 

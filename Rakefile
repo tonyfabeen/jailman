@@ -15,6 +15,8 @@ task :build do
     raise output unless $? == 0
     output = `cp ps_rootfs /usr/local/bin/ps_rootfs`
     raise output unless $? == 0
+    output = `cp ps_network /usr/local/bin/ps_network`
+    raise output unless $? == 0
     end
 end
 

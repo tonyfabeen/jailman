@@ -2,6 +2,7 @@
 module Jailman
   module Constants
     ROOTFS_SCRIPT  = "/usr/local/bin/ps_rootfs"
+    NETWORK_SCRIPT = "/usr/local/bin/ps_network"
     JAIL_SCRIPT    = "/usr/local/bin/psc"
     ROOTFS_DIR     = "/var/local/jailman/jails"
     STATE_DIR      = "/var/lib/jailman"

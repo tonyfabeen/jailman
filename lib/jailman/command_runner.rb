@@ -22,6 +22,10 @@ module Jailman
         run("#{ROOTFS_SCRIPT} #{jail.name} #{jail.directory}")
       end
 
+      def setup_network(jail)
+        run("#{NETWORK_SCRIPT} #{jail.name}")
+      end
+
       def kill_process(jail)
         run("#{JAIL_SCRIPT} #{jail.name} --kill")
       end
